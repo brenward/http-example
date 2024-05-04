@@ -33,7 +33,8 @@ export class PostsService{
 
         return this.http.get<{[key:string]:Post}>(this.firebaseUrl, {
             headers: new HttpHeaders({'Custom-Header':'Hello'}),
-            params: searchParams
+            params: searchParams,
+            responseType:'json'
         })
         .pipe(
             map((responseData) => { 
@@ -54,7 +55,8 @@ export class PostsService{
     deletePosts(){        
         return this.http.delete(this.firebaseUrl, 
             {
-                observe:'events'
+                observe:'events',
+                responseType:'text'
             }
         ).pipe(tap(event => {
             console.log(event);
