@@ -13,6 +13,7 @@ import { PostsService } from './posts.service';
 export class AppComponent implements OnInit {
   loadedPosts = [];
   isLoading = false;
+  error = null;
 
   constructor(private http: HttpClient, private postsService:PostsService) {}
 
@@ -21,6 +22,8 @@ export class AppComponent implements OnInit {
     this.postsService.fetchPosts().subscribe(posts =>{
       this.isLoading = false;
       this.loadedPosts = posts;
+    }, error => {
+      this.error = error.message;
     });
   }
 
@@ -33,6 +36,8 @@ export class AppComponent implements OnInit {
     this.postsService.fetchPosts().subscribe(posts =>{
       this.isLoading = false;
       this.loadedPosts = posts;
+    }, error => {
+      this.error = error.message;
     });
   }
 
