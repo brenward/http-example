@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "./post.model";
 import { catchError, map } from "rxjs/operators";
@@ -24,22 +24,23 @@ export class PostsService{
     }
 
     fetchPosts(){
-        return this.http.get<{[key:string]:Post}>(this.firebaseUrl)
-            .pipe(
-                map((responseData) => { 
-                const postsArray:Post[] = [];
-                for(const key in responseData){
-                if(responseData.hasOwnProperty(key)){
-                    postsArray.push({...responseData[key], id: key});
-                }
-                }
-                return postsArray;
-            }),
-            catchError(errorResponse => {
-                //log error or something
-                return throwError(errorResponse);
-            })
-            );
+        return this.http.get<{[key:string]:Post}>(this.firebaseUrl, {
+            headers: new HttpHeaders({'Custom-Header':'Hello'})
+        })
+        .pipe(
+            map((responseData) => { 
+            const postsArray:Post[] = [];
+            for(const key in responseData){
+            if(responseData.hasOwnProperty(key)){
+                postsArray.push({...responseData[key], id: key});
+            }
+            }
+            return postsArray;
+        }),
+        catchError(errorResponse => {
+            //log error or something
+            return throwError(errorResponse);
+        }));
     }
 
     deletePosts(){        
