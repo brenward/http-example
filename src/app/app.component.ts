@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   loadedPosts = [];
+  firebaseUrl:string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -16,6 +17,12 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
     console.log(postData);
+    this.http.post(this.firebaseUrl, 
+    postData
+    ).subscribe(responseData => {
+      console.log(responseData);
+    });
+
   }
 
   onFetchPosts() {
