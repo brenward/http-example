@@ -19,7 +19,7 @@ export class PostsService{
     }
 
     fetchPosts(){
-        this.http.get<{[key:string]:Post}>(this.firebaseUrl)
+        return this.http.get<{[key:string]:Post}>(this.firebaseUrl)
             .pipe(
                 map((responseData) => { 
                 const postsArray:Post[] = [];
@@ -30,9 +30,6 @@ export class PostsService{
                 }
                 return postsArray;
             })
-            )
-            .subscribe((posts) => {
-
-            });
+            );
     }
 }
