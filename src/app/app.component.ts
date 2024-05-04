@@ -12,6 +12,7 @@ import { Post } from './post.model';
 export class AppComponent implements OnInit {
   loadedPosts = [];
   firebaseUrl:string = '';
+  isLoading = false;
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts(){
+    this.isLoading = true;
     this.http.get<{[key:string]:Post}>(this.firebaseUrl)
     .pipe(
       map((responseData) => { 
@@ -52,6 +54,7 @@ export class AppComponent implements OnInit {
       })
     )
     .subscribe((posts) => {
+      this.isLoading = false;
       this.loadedPosts = posts;
     });
   }
